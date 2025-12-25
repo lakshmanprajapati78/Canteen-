@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="style.css">
+    <title>Your Cart - QuickCanteen</title>
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' https://www.gstatic.com 'unsafe-eval' 'unsafe-inline';">
+</head>
+<body onload="renderCart()">
+    <header>
+        <h1 style="color: var(--primary);">QuickCanteen</h1>
+        <nav class="nav-links">
+            <a href="menu.html">Back to Menu</a>
+            <a href="#" onclick="logout()">Logout</a>
+        </nav>
+    </header>
+
+    <div id="cart-container" style="background: white; padding: 25px; border-radius: 15px; box-shadow: var(--shadow);">
+    <table id="cart-table">
+        <thead>
+            <tr>
+                <th>Food Item</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Total</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="cart-items"></tbody>
+    </table>
+
+    <div style="margin-top: 20px;">
+        <label style="font-weight: 600; color: #555;">Special Instructions (Optional):</label>
+        <textarea id="order-notes" placeholder="e.g., No onions, make it spicy..." style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; margin-top: 8px; font-family: inherit;"></textarea>
+    </div>
+
+    <div style="margin-top: 30px; text-align: right; border-top: 1px solid #eee; padding-top: 20px;">
+        <h3 style="font-size: 1.5rem;">Grand Total: <span id="cart-total" style="color: var(--primary);">₹0</span></h3>
+        <button class="btn btn-primary" onclick="processCheckout()" style="margin-top: 20px; padding: 15px 40px; font-size: 1.1rem; width: 100%;">Proceed to Payment</button>
+    </div>
+</div>
+
+<div id="empty-cart-msg" style="display:none; text-align: center; padding: 50px 0;">
+    <div style="font-size: 60px;">🛒</div>
+    <h3 style="color: #666; margin-top: 15px;">Your cart feels a bit light!</h3>
+    <p style="color: #999; margin-bottom: 25px;">Browse our menu and pick something delicious.</p>
+    <a href="menu.html" class="btn btn-primary" style="text-decoration: none;">Explore Menu</a>
+</div>
+
+    <div id="payment-modal" class="modal">
+        <div class="modal-content" style="text-align: center;">
+            <h3>Select Payment Method</h3>
+            <p style="margin-bottom: 20px;">How would you like to pay?</p>
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+                <button class="btn btn-primary" onclick="finalizeOrder('UPI')">Pay with UPI</button>
+                <button class="btn" style="background: #2f3542; color: white;" onclick="finalizeOrder('Cash')">Pay with Cash</button>
+                <button class="btn" style="background: #ccc;" onclick="closePaymentModal()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="success-modal" class="modal">
+        <div class="modal-content" style="text-align: center; max-width: 400px;">
+            <div style="font-size: 50px; color: #28a745; margin-bottom: 10px;">✔</div>
+            <h2 style="color: #28a745;">Order Placed!</h2>
+            <p style="margin: 10px 0; font-size: 1.1rem; color: #555;">Your order has been successfully placed.</p>
+            <p id="order-id-text" style="font-weight: bold; background: #f8f9fa; padding: 10px; border-radius: 5px;"></p>
+            
+            <div id="upi-info-container" style="display:none; margin-top: 20px; border-top: 1px solid #eee; padding-top: 15px;">
+                <p style="margin-bottom: 15px;">Complete your payment:</p>
+                <a id="pay-now-btn" href="#" class="btn" style="background: #6c5ce7; color: white; display: block; text-decoration: none;">
+                    Pay ₹<span id="final-amount-btn"></span> via UPI App
+                </a>
+            </div>
+
+            <button class="btn btn-primary" onclick="location.href='menu.html'" style="width:100%; margin-top:20px;">Return to Menu</button>
+        </div>
+    </div>
+
+    <script type="module" src="script.js"></script>
+</body>
+</html>

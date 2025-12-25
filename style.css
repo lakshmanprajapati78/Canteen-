@@ -1,0 +1,75 @@
+:root {
+    --primary: #ff4757;
+    --primary-hover: #ff6b81;
+    --secondary: #2f3542;
+    --accent: #ffa502;
+    --bg: #f1f2f6;
+    --white: #ffffff;
+    --shadow: 0 10px 25px rgba(0,0,0,0.1);
+    --border-radius: 12px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+
+body { background-color: var(--bg); color: var(--secondary); line-height: 1.6; }
+
+/* Header & Nav */
+header {
+    background: var(--white);
+    padding: 1rem 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: var(--shadow);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.nav-links { display: flex; align-items: center; gap: 20px; }
+.nav-links a { text-decoration: none; color: var(--secondary); font-weight: 600; transition: 0.3s; }
+.nav-links a:hover { color: var(--primary); }
+
+/* Buttons */
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.3s;
+}
+.btn-primary { background: var(--primary); color: white; }
+.btn-primary:hover { background: var(--primary-hover); transform: translateY(-2px); }
+.btn-danger { background: #eb4d4b; color: white; }
+
+/* Food Grid */
+.container { max-width: 1100px; margin: 40px auto; padding: 0 20px; }
+.food-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 30px;
+}
+
+.food-card {
+    background: var(--white);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: 0.3s;
+}
+.food-card:hover { transform: translateY(-10px); }
+.food-card img { width: 100%; height: 200px; object-fit: cover; }
+.food-info { padding: 20px; }
+
+/* Tables */
+table { width: 100%; border-collapse: collapse; background: white; border-radius: 10px; overflow: hidden; margin-top: 20px; }
+th, td { padding: 15px; text-align: left; border-bottom: 1px solid #ddd; }
+th { background: var(--secondary); color: white; }
+
+/* Modal */
+.modal {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.6); display: none; justify-content: center; align-items: center;
+}
+.modal-content { background: white; padding: 30px; border-radius: 15px; width: 400px; }

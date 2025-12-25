@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+    <title>Menu - QuickCanteen</title>
+</head>
+<body onload="renderMenu()">
+    <header>
+        <h1 style="color: var(--primary);">QuickCanteen</h1>
+        <nav class="nav-links">
+            <a href="menu.html">Home</a>
+            <a href="cart.html" class="btn btn-primary" style="color:white; text-decoration:none;">
+                Cart (<span id="cart-count">0</span>)
+            </a>
+            <a href="#" onclick="logout()" style="color: var(--danger);">Logout</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+            <h2>Explore Our Menu</h2>
+        </div>
+        
+        <div id="food-grid" class="food-grid">
+            </div>
+    </div>
+
+    <script type="module" src="script.js"></script>
+</body>
+</html>
