@@ -72,47 +72,62 @@ window.addToCart = (id, name, price) => {
     document.getElementById('cart-count').innerText = cart.length;
 };
 
+// --- Admin Menu Management ---
+window.renderAdminMenu = () => {
+    onValue(ref(db, 'menu'), (snap) => {
+        const menu = snap.val() || {};
+        const tbody = document.querySelector('#admin-menu-table tbody');
+
+        if (!tbody) return;
+
+        tbody.innerHTML = Object.keys(menu).map(id => `
+            <tr>
+                <td>${menu[id].name}</td>
+                <td>₹${menu[id].price}</td>
+                <td>
+                    <button class="btn btn-danger"
+                        onclick="deleteItem('${id}')">
+                        Delete
+                    </button>
+                </td>
+            </tr>
+        `).join('');
+    });
+};
+
+
 // --- Admin Dashboard ---
 window.renderAdminDashboard = () => {
+    renderAdminMenu(); // ✅ ADD THIS LINE
+
     onValue(ref(db, 'orders'), (snap) => {
         const orders = snap.val() || {};
         const table = document.querySelector('#admin-orders-table tbody');
-        if (table) table.innerHTML = Object.keys(orders).map(k => {
-            let statusClass = orders[k].status === 'Paid' ? 'status-paid' : (orders[k].status.includes('Pending') ? 'status-pending' : 'status-unpaid');
-            return `
-                <tr>
-                    <td>#${k.slice(-4)}</td>
-                    <td>${orders[k].customer}<br><small style="color:#888">${orders[k].notes || ''}</small></td>
-                    <td>${orders[k].items.map(i => `${i.qty}x ${i.name}`).join(', ')}</td>
-                    <td>₹${orders[k].total}</td>
-                    <td><span class="status-badge ${statusClass}">${orders[k].status}</span></td>
-                    <td><button class="btn" style="padding: 5px 10px; font-size:0.8rem" onclick="toggleStatus('${k}', '${orders[k].status}')">Toggle Status</button></td>
-                </tr>`;
-        }).join('');
-    });
+        if (!table) return;
 
-    onValue(ref(db, 'orders'), (snap) => {
-        const orders = snap.val() || {};
-        const ordersTableBody = document.querySelector('#admin-orders-table tbody');
-        if (ordersTableBody) {
-            ordersTableBody.innerHTML = Object.keys(orders).map(k => `
-                <tr>
-                    <td>#${k.slice(-4)}</td>
-                    <td><strong>${orders[k].customer || 'Guest'}</strong></td> 
-                    <td>${orders[k].items.map(i => i.name).join(', ')}</td>
-                    <td>₹${orders[k].total}</td>
-                    <td style="color:${orders[k].status === 'Paid' ? '#27ae60' : '#e74c3c'}">
-                        <b>${orders[k].status}</b>
-                    </td>
-                    <td><button onclick="toggleStatus('${k}', '${orders[k].status}')">Update</button></td>
-                </tr>`).join('');
-        }
+        table.innerHTML = Object.keys(orders).map(k => `
+            <tr>
+                <td>#${k.slice(-4)}</td>
+                <td>${orders[k].customer}</td>
+                <td>${orders[k].items.map(i => i.name).join(', ')}</td>
+                <td>₹${orders[k].total}</td>
+                <td>${orders[k].status}</td>
+                <td>
+                    <button onclick="toggleStatus('${k}', '${orders[k].status}')">
+                        Toggle
+                    </button>
+                </td>
+            </tr>
+        `).join('');
     });
 
     onValue(ref(db, 'settings/merchantUpi'), (snap) => {
-        if(snap.exists()) document.getElementById('merchant-upi').value = snap.val();
+        if (snap.exists()) {
+            document.getElementById('merchant-upi').value = snap.val();
+        }
     });
 };
+
 
 window.saveItem = () => {
     const name = document.getElementById('food-name').value;
